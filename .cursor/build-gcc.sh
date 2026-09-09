@@ -1,28 +1,26 @@
 #!/usr/bin/env bash
+# Dispatcher. Prefer the named scripts directly.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-BUILD="${GCC_BUILD_DIR:-${HOME}/gcc-build}"
-PREFIX="${GCC_PREFIX:-${HOME}/gcc-install}"
-JOBS="${GCC_JOBS:-2}"
-
-CONFIGURE_ARGS=(
-  --prefix="$PREFIX"
-  --enable-languages=c,c++,fortran,lto
-  --enable-lto
-  --disable-multilib
-  --disable-bootstrap
-  --disable-nls
-)
-
-mkdir -p "$BUILD"
-cd "$BUILD"
-
-stamp="$BUILD/cursor-configure.stamp"
-desired="$(printf '%s\n' "${CONFIGURE_ARGS[@]}")"
-if [[ ! -f Makefile ]] || [[ "$(cat "$stamp" 2>/dev/null || true)" != "$desired" ]]; then
-  "$ROOT/configure" "${CONFIGURE_ARGS[@]}"
-  printf '%s\n' "$desired" > "$stamp"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+mode="${1:-}"
+if [[ $# -gt 0 ]]; then
+  shift
 fi
 
-make -j"$JOBS"
+case "$mode" in
+  dev|fast)
+    exec "$DIR/build-gcc-dev.sh" "$@"
+    ;;
+  submit|patch)
+    exec "$DIR/build-gcc-submit.sh" "$@"
+    ;;
+  *)
+    echo "Usage: $0 dev|submit [build|check|bootstrap]" >&2
+    echo "  $0 dev              fast pass verification (non-bootstrap C/C++/Fortran+LTO)" >&2
+    echo "  $0 dev check        same, then make check-gcc" >&2
+    echo "  $0 submit           community bootstrap of default languages" >&2
+    echo "  $0 submit check     make -k check + test_summary (after bootstrap)" >&2
+    exit 2
+    ;;
+esac
