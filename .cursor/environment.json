@@ -3,5 +3,5 @@
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "install": "set -euo pipefail; gcc --version; g++ --version; make --version | head -n 1; flex --version | head -n 1; python3 --version; mkdir -p \"$HOME/gcc-build\" \"$HOME/gcc-install\"; test -x contrib/download_prerequisites; echo \"GCC cloud image is ready for an out-of-tree build in $HOME/gcc-build\""
+  "install": "set -euo pipefail; gcc --version; g++ --version; make --version | head -n 1; flex --version | head -n 1; python3 --version; mkdir -p \"$HOME/gcc-build-dev\" \"$HOME/gcc-install-dev\" \"$HOME/gcc-build-submit\" \"$HOME/gcc-install-submit\"; test -x contrib/download_prerequisites; chmod +x .cursor/build-gcc.sh .cursor/build-gcc-dev.sh .cursor/build-gcc-submit.sh; echo \"GCC cloud image is ready. Use .cursor/build-gcc-dev.sh or .cursor/build-gcc-submit.sh\""
 }
