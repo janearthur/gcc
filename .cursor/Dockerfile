@@ -30,9 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmpc-dev \
     libisl-dev \
     zlib1g-dev \
+    gettext \
     texinfo \
     dejagnu \
     expect \
+    tcl \
+    autogen \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
