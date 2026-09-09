@@ -2,4 +2,6 @@
 
 Cursor Cloud build and test instructions live in `.cursor/AGENTS.md`.
 
-Use `./.cursor/build-gcc.sh` for an out-of-tree, non-bootstrap C/C++/Fortran + LTO build on the Cloud VM.
+- Fast pass work: `./.cursor/build-gcc-dev.sh`
+- gcc-patches submission bootstrap: `./.cursor/build-gcc-submit.sh`
+- Full community check after that bootstrap: `./.cursor/build-gcc-submit.sh check`
