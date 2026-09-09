@@ -1,0 +1,7 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "install": "set -euo pipefail; gcc --version; g++ --version; make --version | head -n 1; flex --version | head -n 1; python3 --version; mkdir -p \"$HOME/gcc-build\" \"$HOME/gcc-install\"; test -x contrib/download_prerequisites; echo \"GCC cloud image is ready for an out-of-tree build in $HOME/gcc-build\""
+}
