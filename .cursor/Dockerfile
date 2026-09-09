@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmpfr-dev \
     libmpc-dev \
     libisl-dev \
+    zlib1g-dev \
     texinfo \
     dejagnu \
     expect \
