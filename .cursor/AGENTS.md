@@ -17,7 +17,8 @@ mkdir -p "$HOME/gcc-build"
 cd "$HOME/gcc-build"
 <repo-root>/configure \
   --prefix="$HOME/gcc-install" \
-  --enable-languages=c,c++ \
+  --enable-languages=c,c++,fortran,lto \
+  --enable-lto \
   --disable-multilib \
   --disable-bootstrap \
   --disable-nls
@@ -25,7 +26,8 @@ make -j2
 ```
 
 - Use `make -j2` unless you have confirmed a higher `-j` does not OOM.
-- Do not enable bootstrap or extra languages (Ada, Fortran, Go, D, Rust, …) on the default Cloud VM.
+- Keep C/C++/Fortran + LTO. Do not add Ada, Go, D, or Rust on the default Cloud VM.
+- Do not enable bootstrap on the default Cloud VM.
 - Do not build inside the source tree.
 
 ## Test
@@ -35,4 +37,7 @@ After `make`, run a targeted test, not the full suite:
 ```bash
 cd "$HOME/gcc-build"
 make -j2 check-gcc RUNTESTFLAGS="dg.exp=the-test-name.c"
+# Fortran / LTO as needed:
+# make -j2 check-fortran
+# make -j2 check-gcc RUNTESTFLAGS="lto.exp=the-test-name.c"
 ```
